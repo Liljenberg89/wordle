@@ -1,0 +1,13 @@
+.container {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  justify-content: center;
+  gap: 5px;
+}
+.box {
+  width: 60px;
+  height: 60px;
+  background-color: rgb(217, 217, 217);
+  border: 1px solid black;
+}
