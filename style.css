@@ -9,4 +9,10 @@
   height: 60px;
   background-color: rgb(217, 217, 217);
   border: 1px solid black;
+  text-align: center;
+}
+.hide {
+  display: none;
+}
+.userGuess {
 }
