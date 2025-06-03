@@ -1,19 +1,17 @@
 let wordle = [];
-
+let guess = [];
 let trys = 0;
 
 const getWordle = (event) => {
   event.preventDefault();
   const input = document.querySelector(".input");
-  wordle.push(input.value.toLowerCase().split(""));
+  wordle.push(input.value.toUpperCase().split(""));
 
-  console.log(wordle[0]);
   document.querySelector("#form").classList.add("hide");
   playField();
 };
 
 const playField = () => {
-  console.log(wordle[0].length);
   const container = document.querySelector(".container");
   container.style.setProperty(
     "grid-template-columns",
@@ -27,24 +25,46 @@ const playField = () => {
       const box = document.createElement("div");
       box.classList.add("box");
       box.setAttribute("row", i);
+      box.setAttribute("col", a);
+
       container.appendChild(box);
     }
   }
-  const userGuess = document.createElement("input");
-  userGuess.classList.add("userGuess");
+  for (let i = 0; i < wordle[0].length; i++) {
+    const userGuess = document.createElement("input");
+    userGuess.classList.add("userGuess");
+    userGuess.id = i;
+    container.appendChild(userGuess);
+  }
+
   const submitGuess = document.createElement("button");
   submitGuess.innerHTML = "Submit";
+  container.appendChild(submitGuess);
 
   submitGuess.addEventListener("click", () => {
-    checkWordle(userGuess.value);
+    for (let i = 0; i < wordle[0].length; i++) {
+      const value = document.getElementById(i).value.toUpperCase();
+      guess.push(value);
+    }
+    checkWordle(guess);
   });
-
-  container.appendChild(userGuess);
-  container.appendChild(submitGuess);
 };
 
-const checkWordle = (userGuess) => {
-  console.log("guess: ", userGuess);
+const checkWordle = (guess) => {
+  console.log("guess: ", guess);
+  console.log("wordle: ", wordle[0]);
+
+  for (let i = 0; i < guess.length; i++) {
+    if (guess[i] === wordle[0][i]) {
+      const correct = document.querySelector(`[col="${i}"]`);
+      correct.style.backgroundColor = "green";
+    } else {
+      console.log("fel");
+    }
+    const showGuess = document.querySelector(`[col="${i}"]`);
+    showGuess.innerHTML = guess[i];
+  }
+  /*
   let guess = [];
   guess.push(userGuess.toLowerCase().split(""));
   console.log(guess[0]);
@@ -53,4 +73,5 @@ const checkWordle = (userGuess) => {
   } else {
     console.log("rätt");
   }
+    */
 };
