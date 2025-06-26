@@ -1,8 +1,8 @@
-let wordle = ["HEJ"];
+let wordle = [];
 let guess = [];
 let correctCount = [];
 let trys = 0;
-/*
+
 const getWordle = (event) => {
   event.preventDefault();
   const input = document.querySelector(".input");
@@ -11,7 +11,6 @@ const getWordle = (event) => {
   document.querySelector("#form").classList.add("hide");
   playField();
 };
-*/
 
 const playField = () => {
   const container = document.querySelector(".container");
@@ -40,15 +39,26 @@ const playField = () => {
   }
 
   const submitGuess = document.createElement("button");
+  submitGuess.id = "submit";
   submitGuess.innerHTML = "Submit";
   container.appendChild(submitGuess);
 
   submitGuess.addEventListener("click", () => {
+    let validGuess = 0;
+    guess.length = 0;
+
     for (let i = 0; i < wordle[0].length; i++) {
       const value = document.getElementById(i).value.toUpperCase();
       guess.push(value);
     }
-    checkWordle(guess);
+    for (let i = 0; i < guess.length; i++) {
+      if (guess[i].length == 1) {
+        validGuess++;
+      }
+    }
+    if (validGuess === wordle[0].length) {
+      checkWordle(guess);
+    }
   });
 };
 
@@ -76,13 +86,11 @@ const checkWordle = (guess) => {
 };
 
 const checkWin = () => {
-  console.log("guess: ", guess);
-  console.log("wordle: ", wordle[0]);
-  console.log("correct: ", correctCount);
   if (correctCount.length === wordle[0].length) {
     console.log("Du vann!");
+    const sub = document.getElementById("submit");
+    sub.style.visibility = "hidden";
   }
   correctCount.length = 0;
   guess.length = 0;
 };
-playField();
