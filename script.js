@@ -1,8 +1,8 @@
-let wordle = [];
+let wordle = ["HEJ"];
 let guess = [];
 let correctCount = [];
 let trys = 0;
-
+/*
 const getWordle = (event) => {
   event.preventDefault();
   const input = document.querySelector(".input");
@@ -11,6 +11,7 @@ const getWordle = (event) => {
   document.querySelector("#form").classList.add("hide");
   playField();
 };
+*/
 
 const playField = () => {
   const container = document.querySelector(".container");
@@ -84,3 +85,4 @@ const checkWin = () => {
   correctCount.length = 0;
   guess.length = 0;
 };
+playField();
