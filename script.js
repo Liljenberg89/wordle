@@ -1,5 +1,6 @@
 let wordle = [];
 let guess = [];
+let correctCount = [];
 let trys = 0;
 
 const getWordle = (event) => {
@@ -51,27 +52,35 @@ const playField = () => {
 };
 
 const checkWordle = (guess) => {
-  console.log("guess: ", guess);
-  console.log("wordle: ", wordle[0]);
-
   for (let i = 0; i < guess.length; i++) {
     if (guess[i] === wordle[0][i]) {
-      const correct = document.querySelector(`[col="${i}"]`);
+      correctCount.push(guess[i]);
+      const correct = document.querySelector(`[col="${i}"][row="${trys}"]`);
       correct.style.backgroundColor = "green";
+      const hide = document.getElementById(i);
+      hide.style.visibility = "hidden";
+    } else if (wordle[0].includes(guess[i])) {
+      const almostCorrect = document.querySelector(
+        `[col="${i}"][row="${trys}"]`
+      );
+      almostCorrect.style.backgroundColor = "orange";
     } else {
       console.log("fel");
     }
-    const showGuess = document.querySelector(`[col="${i}"]`);
+    const showGuess = document.querySelector(`[col="${i}"][row="${trys}"]`);
     showGuess.innerHTML = guess[i];
   }
-  /*
-  let guess = [];
-  guess.push(userGuess.toLowerCase().split(""));
-  console.log(guess[0]);
-  if (guess[0].length !== wordle[0].length) {
-    console.log("fel");
-  } else {
-    console.log("rätt");
+  trys++;
+  checkWin();
+};
+
+const checkWin = () => {
+  console.log("guess: ", guess);
+  console.log("wordle: ", wordle[0]);
+  console.log("correct: ", correctCount);
+  if (correctCount.length === wordle[0].length) {
+    console.log("Du vann!");
   }
-    */
+  correctCount.length = 0;
+  guess.length = 0;
 };
