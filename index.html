@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -7,12 +7,19 @@
     <title>Document</title>
   </head>
   <body>
-     <h1>WORDLE</h1> 
+    <div class="start">
+      <h1>WORDLE</h1>
 
-    <form id="form" onsubmit="getWordle(event)">
-      <input type="text" class="input" />
-      <input type="submit" />
-    </form>
+      <div class="button-box">
+        <button>Custom word</button> <button>Random word</button>
+      </div>
+
+      <form id="form" onsubmit="getWordle(event)">
+        <input type="text" class="input" />
+        <input type="submit" />
+      </form>
+    </div>
+
     <div class="container"></div>
     <script src="script.js"></script>
   </body>

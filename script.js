@@ -3,16 +3,18 @@ let guess = [];
 let correctCount = [];
 let trys = 0;
 
-const getRandomWord = async () =>{
-  const response = await fetch("https://random-word-api.herokuapp.com/word?number=1&diff=2&length=5")
+const getRandomWord = async () => {
+  const response = await fetch(
+    "https://random-word-api.herokuapp.com/word?number=1&diff=2&length=5",
+  );
 
-  if(!response.ok){
-    console.log("error")
+  if (!response.ok) {
+    console.log("error");
   }
-  const data = await response.json()
-  console.log(data)
-}
-getRandomWord()
+  const data = await response.json();
+  console.log(data);
+};
+getRandomWord();
 const getWordle = (event) => {
   event.preventDefault();
   const input = document.querySelector(".input");
@@ -26,7 +28,7 @@ const playField = () => {
   const container = document.querySelector(".container");
   container.style.setProperty(
     "grid-template-columns",
-    `repeat(${wordle[0].length}, 60px)`
+    `repeat(${wordle[0].length}, 60px)`,
   );
 
   const x = 6;
@@ -82,7 +84,7 @@ const checkWordle = (guess) => {
       hide.style.visibility = "hidden";
     } else if (wordle[0].includes(guess[i])) {
       const almostCorrect = document.querySelector(
-        `[col="${i}"][row="${trys}"]`
+        `[col="${i}"][row="${trys}"]`,
       );
       almostCorrect.style.backgroundColor = "orange";
     } else {

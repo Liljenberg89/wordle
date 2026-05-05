@@ -1,4 +1,4 @@
-body{
+body {
   margin: 0;
   padding: 0;
   background-image: url("1a3e200a-f755-4d4d-a656-7da127560070.png");
@@ -6,10 +6,13 @@ body{
   background-repeat: no-repeat;
   width: 100vw;
   height: 100vh;
+}
+.start {
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  margin-top: 200px;
 }
 .container {
   margin-top: 100px;
@@ -31,4 +34,17 @@ body{
   display: none;
 }
 .userGuess {
+}
+
+button {
+  width: 200px;
+  height: 50px;
+  background-color: white;
+  border-radius: 10px;
+  border: solid 1px rgb(199, 199, 199);
+  box-shadow: none;
+}
+.button-box {
+  display: flex;
+  gap: 40px;
 }
