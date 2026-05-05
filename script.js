@@ -3,6 +3,16 @@ let guess = [];
 let correctCount = [];
 let trys = 0;
 
+const getRandomWord = async () =>{
+  const response = await fetch("https://random-word-api.herokuapp.com/word?number=1&diff=2&length=5")
+
+  if(!response.ok){
+    console.log("error")
+  }
+  const data = await response.json()
+  console.log(data)
+}
+getRandomWord()
 const getWordle = (event) => {
   event.preventDefault();
   const input = document.querySelector(".input");
