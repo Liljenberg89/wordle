@@ -11,18 +11,19 @@
       <h1>WORDLE</h1>
 
       <div class="button-box">
-        <button>Custom word</button>
+        <form id="form" onsubmit="getWordle(event)">
+          <input
+            placeholder="custom word..."
+            id="custom"
+            type="text"
+            class="input"
+          />
+          <input id="custom-sub" type="submit" />
+        </form>
         <button onclick="getRandomWord()">Random word</button>
       </div>
-
-      <form id="form" onsubmit="getWordle(event)">
-        <input type="text" class="input" />
-        <input type="submit" />
-      </form>
-
-      <div class="container"></div>
     </div>
-
+    <div class="container"></div>
     <script src="script.js"></script>
   </body>
 </html>

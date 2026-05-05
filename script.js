@@ -28,6 +28,8 @@ const getWordle = (event) => {
 };
 
 const playField = () => {
+  document.querySelector(".start").classList.add("hide");
+
   const container = document.querySelector(".container");
   container.style.setProperty(
     "grid-template-columns",
