@@ -12,14 +12,17 @@ const getRandomWord = async () => {
     console.log("error");
   }
   const data = await response.json();
+  wordle.push(data[0].toUpperCase().split(""));
+
   console.log(data);
+  console.log(wordle);
+  playField();
 };
-getRandomWord();
+
 const getWordle = (event) => {
   event.preventDefault();
   const input = document.querySelector(".input");
   wordle.push(input.value.toUpperCase().split(""));
-
   document.querySelector("#form").classList.add("hide");
   playField();
 };
