@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [wordle, setWordle] = useState<Array<string>>();
+  const [state, setState] = useState<string>("start");
+  const [trys, setTrys] = useState<string[]>(["", "", "", "", ""]);
+  const [wordle, setWordle] = useState<string[]>([]);
+
   const getRandomWord = async () => {
     const response = await fetch(
       "https://random-word-api.herokuapp.com/word?number=1&diff=2&length=5",
@@ -16,31 +19,39 @@ function App() {
     console.log(data);
 
     setWordle(data[0].split(""));
-    generatePlayField();
-  };
-  useEffect(() => {
-    console.log(wordle);
-  }, [wordle]);
-
-  const generatePlayField = () => {
-    return <div className="playfield"></div>;
+    setState("game");
   };
 
-  return (
-    <>
-      <div className="container">
-        <h1>Ultimate WORDLE</h1>
-        <p>Kan du knäcka ordet?</p>
-        <p>Klicka start för att spela.</p>
-
-        <div className="button-box">
-          <button onClick={getRandomWord}>
-            <h2>Start</h2>
-          </button>
-        </div>
+  const Playfield = () => {
+    return (
+      <div className="playfield">
+        {trys.map(() => wordle.map(() => <div className="tile"></div>))}
       </div>
-    </>
-  );
+    );
+  };
+
+  const Home = () => {
+    return (
+      <>
+        <div className="container">
+          <h1>Ultimate WORDLE</h1>
+          <p>Kan du knäcka ordet?</p>
+          <p>Klicka start för att spela.</p>
+
+          <div className="button-box">
+            <button onClick={getRandomWord}>
+              <h2>Start</h2>
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  };
+  if (state == "start") {
+    return <Home />;
+  } else {
+    return <Playfield />;
+  }
 }
 
 export default App;
