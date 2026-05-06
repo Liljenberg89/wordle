@@ -25,7 +25,9 @@ function App() {
   const Playfield = () => {
     return (
       <div className="playfield">
-        {trys.map(() => wordle.map(() => <div className="tile"></div>))}
+        {trys.map(() =>
+          wordle.map(() => <input className="tile" maxLength={1} />),
+        )}
       </div>
     );
   };
