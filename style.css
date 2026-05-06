@@ -7,12 +7,21 @@ body {
   width: 100vw;
   height: 100vh;
 }
+h1 {
+  font-family: "Fredoka One", cursive;
+}
+p {
+  font-family: "Fredoka One", cursive;
+  color: rgb(92, 92, 92);
+  margin: 0;
+  padding: 0;
+}
 .start {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  margin-top: 200px;
+  padding-top: 200px;
 }
 .container {
   margin-top: 100px;
@@ -53,13 +62,24 @@ form {
 }
 
 button {
+  margin-top: 20px;
   width: 200px;
-  height: 54px;
+  height: 50px;
   background-color: white;
-  border-radius: 10px;
+  color: rgb(102, 102, 102);
+  border-radius: 100px;
   border: solid 1px rgb(199, 199, 199);
   box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+button:hover {
+  background-color: rgb(199, 199, 199);
+  color: rgb(48, 48, 48);
+  cursor: pointer;
+}
+
 .button-box {
   display: flex;
   gap: 20px;
