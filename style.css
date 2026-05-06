@@ -68,15 +68,17 @@ button {
   background-color: white;
   color: rgb(102, 102, 102);
   border-radius: 100px;
-  border: solid 1px rgb(199, 199, 199);
+  border: solid 2px rgb(122, 122, 122);
   box-shadow: none;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 button:hover {
-  background-color: rgb(199, 199, 199);
-  color: rgb(48, 48, 48);
+  background-color: rgb(122, 122, 122);
+  color: white;
+  border: solid 2px rgb(255, 255, 255);
+
   cursor: pointer;
 }
 
