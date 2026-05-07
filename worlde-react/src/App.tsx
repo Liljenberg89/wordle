@@ -30,18 +30,35 @@ function App() {
             wordle.map(() => <input className="tile" maxLength={1} />),
           )}
         </div>
+        <KeyBoard />
       </div>
     );
   };
 
-  const keyBoard = () => {
-    const keys1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
-    const keys2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
+  const KeyBoard = () => {
+    const keys1: any = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
+    const keys2: any = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
     const keys3 = ["DELETE", "Z", "X", "C", "V", "B", "N", "M", "ENTER"];
 
     return (
       <div>
-        <div></div>
+        <div className="keyboard">
+          <div className="keyboard-rows">
+            {keys1.map((key: any) => (
+              <div className="key">{key}</div>
+            ))}
+          </div>
+          <div className="keyboard-rows">
+            {keys2.map((key: any) => (
+              <div className="key">{key}</div>
+            ))}{" "}
+          </div>
+          <div className="keyboard-rows">
+            {keys3.map((key: any) => (
+              <div className="key">{key}</div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   };
