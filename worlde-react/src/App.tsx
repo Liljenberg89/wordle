@@ -4,8 +4,10 @@ import "./App.css";
 
 function App() {
   const [state, setState] = useState<string>("start");
-  const [trys, setTrys] = useState<string[]>(["", "", "", "", ""]);
+  const [trys, setTrys] = useState<any[][]>([[], [], [], [], []]);
   const [wordle, setWordle] = useState<string[]>([]);
+  const [count, setCount] = useState<number>(0);
+  const [guess, setGuess] = useState<string>("");
 
   const getRandomWord = async () => {
     const response = await fetch(
@@ -26,14 +28,23 @@ function App() {
     return (
       <div className="playfield">
         <div className="playfield-box">
-          {trys.map(() =>
-            wordle.map(() => <input className="tile" maxLength={1} />),
+          {trys.map((_, row: any) =>
+            wordle.map((_, col: any) => (
+              <div className="tile" data-row={row} data-col={col}>
+                {guess[col]}
+              </div>
+            )),
           )}
         </div>
         <KeyBoard />
       </div>
     );
   };
+
+  useEffect(() => {
+    console.log(guess);
+    Playfield();
+  }, [guess]);
 
   const KeyBoard = () => {
     const keys1: any = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
@@ -45,7 +56,15 @@ function App() {
         <div className="keyboard">
           <div className="keyboard-rows">
             {keys1.map((key: any) => (
-              <div className="key">{key}</div>
+              <div
+                className="key"
+                onClick={() => {
+                  setGuess((prev) => prev + key);
+                  setCount((prev) => prev + 1);
+                }}
+              >
+                {key}
+              </div>
             ))}
           </div>
           <div className="keyboard-rows">
