@@ -4,13 +4,13 @@ import "./App.css";
 
 function App() {
   const [state, setState] = useState<string>("start");
-  const [trys, setTrys] = useState<any[][]>([[], [], [], [], []]);
+  const [trys, setTrys] = useState<string[]>(["", "", "", "", ""]);
   const [wordle, setWordle] = useState<string[]>([]);
   const [count, setCount] = useState<number>(0);
   const [guess, setGuess] = useState<string>("");
 
   const getRandomWord = async () => {
-    const response = await fetch(
+    /* const response = await fetch(
       "https://random-word-api.herokuapp.com/word?number=1&diff=2&length=5",
     );
 
@@ -21,6 +21,9 @@ function App() {
     console.log(data);
 
     setWordle(data[0].split(""));
+    */
+    setWordle("hejsa".split(""));
+
     setState("game");
   };
 
@@ -28,13 +31,11 @@ function App() {
     return (
       <div className="playfield">
         <div className="playfield-box">
-          {trys.map((_, row: any) =>
-            wordle.map((_, col: any) => (
-              <div className="tile" data-row={row} data-col={col}>
-                {guess[col]}
-              </div>
-            )),
-          )}
+          {wordle.map((_, col: any) => (
+            <div className="tile" data-col={col}>
+              {guess[col]}
+            </div>
+          ))}
         </div>
         <KeyBoard />
       </div>

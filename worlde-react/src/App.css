@@ -3,6 +3,7 @@ body {
   padding: 0;
   width: 100vw;
   height: 100vh;
+  font-family: "Fredoka One", cursive;
 }
 .container {
   background-image: url("../public/1a3e200a-f755-4d4d-a656-7da127560070.png");
@@ -33,13 +34,15 @@ body {
   width: fit-content;
 }
 .tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: white;
   border-radius: 2px;
   border: 3px solid rgb(112, 134, 15);
   color: white;
   width: 60px;
   height: 60px;
-  text-align: center;
   color: black;
   font-size: 2rem;
 }
