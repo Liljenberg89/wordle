@@ -52,30 +52,43 @@ function App() {
     const keys2: any = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
     const keys3 = ["DELETE", "Z", "X", "C", "V", "B", "N", "M", "ENTER"];
 
+    const addKey = (key: any) => {
+      if (key === "ENTER" && guess.length === 5) {
+        console.log("hej");
+        return;
+      }
+      if (key === "DELETE") {
+        setGuess((prev) => prev.slice(0, -1));
+        return;
+      }
+      if (guess.length <= 4 && key !== "ENTER") {
+        setGuess((prev) => prev + key);
+        setCount((prev) => prev + 1);
+      }
+    };
+
     return (
       <div>
         <div className="keyboard">
           <div className="keyboard-rows">
             {keys1.map((key: any) => (
-              <div
-                className="key"
-                onClick={() => {
-                  setGuess((prev) => prev + key);
-                  setCount((prev) => prev + 1);
-                }}
-              >
+              <div className="key" onClick={() => addKey(key)}>
                 {key}
               </div>
             ))}
           </div>
           <div className="keyboard-rows">
             {keys2.map((key: any) => (
-              <div className="key">{key}</div>
+              <div className="key" onClick={() => addKey(key)}>
+                {key}
+              </div>
             ))}{" "}
           </div>
           <div className="keyboard-rows">
             {keys3.map((key: any) => (
-              <div className="key">{key}</div>
+              <div className="key" onClick={() => addKey(key)}>
+                {key}
+              </div>
             ))}
           </div>
         </div>
