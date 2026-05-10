@@ -4,9 +4,9 @@ import "./App.css";
 
 function App() {
   const [state, setState] = useState<string>("start");
-  const [trys, setTrys] = useState<string[]>(["", "", "", "", ""]);
+  const [trys, setTrys] = useState<string[][]>([[], [], [], [], []]);
   const [wordle, setWordle] = useState<string[]>([]);
-  const [count, setCount] = useState<number>(0);
+  const [activeRow, setActiveRow] = useState<number>(0);
   const [guess, setGuess] = useState<string>("");
   const [correct, setCorrect] = useState<any>([]);
 
@@ -32,37 +32,49 @@ function App() {
     return (
       <div className="playfield">
         <div className="playfield-box">
-          {wordle.map((_, col: any) => (
-            <div
-              className={correct.includes(col) ? "tile green" : "tile"}
-              data-col={col}
-            >
-              {guess[col]}
-            </div>
-          ))}
+          {[0, 1, 2, 3, 4].map((row) =>
+            wordle.map((_, col: any) => (
+              <div
+                className={correct.includes(col) ? "tile green" : "tile"}
+                data-col={col}
+                data-row={row}
+              >
+                {trys[activeRow].length > 0
+                  ? trys[activeRow]
+                  : activeRow === row
+                    ? guess[col]
+                    : ""}
+              </div>
+            )),
+          )}
         </div>
         <KeyBoard />
+        <button onClick={() => console.log(trys)}>sdasd</button>
       </div>
     );
   };
 
   useEffect(() => {
     console.log(guess);
+    console.log("trys: ", trys);
     Playfield();
   }, [guess]);
 
   const checkWin = () => {
+    setTrys((prev) => {
+      const updated: any = [...prev];
+      updated[activeRow] = guess;
+      return updated;
+    });
+
+    setActiveRow((prev) => prev + 1);
+
     const splitGuess = guess.split("");
-    console.log("Guess: ", splitGuess);
-    console.log("Wordle: ", wordle);
+
     for (let i = 0; i < wordle.length; i++) {
       console.log(i);
       if (guess[i] === wordle[i]) {
         setCorrect((prev: any) => [...prev, i]);
-        console.log(guess[i]);
-        console.log(wordle[i]);
-        console.log(correct);
-        console.log("MATCH");
       }
     }
   };
@@ -83,7 +95,6 @@ function App() {
       }
       if (guess.length <= 4 && key !== "ENTER") {
         setGuess((prev) => prev + key);
-        setCount((prev) => prev + 1);
       }
     };
 
@@ -136,7 +147,11 @@ function App() {
   if (state == "start") {
     return <Home />;
   } else {
-    return <Playfield />;
+    return (
+      <div>
+        <Playfield />;
+      </div>
+    );
   }
 }
 
