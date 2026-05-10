@@ -66,3 +66,6 @@ body {
   background-color: rgb(219, 219, 219);
   border-radius: 8px;
 }
+.green {
+  background-color: green;
+}

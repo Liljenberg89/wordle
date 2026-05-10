@@ -8,6 +8,7 @@ function App() {
   const [wordle, setWordle] = useState<string[]>([]);
   const [count, setCount] = useState<number>(0);
   const [guess, setGuess] = useState<string>("");
+  const [correct, setCorrect] = useState<any>([]);
 
   const getRandomWord = async () => {
     /* const response = await fetch(
@@ -22,7 +23,7 @@ function App() {
 
     setWordle(data[0].split(""));
     */
-    setWordle("hejsa".split(""));
+    setWordle("HEJSA".split(""));
 
     setState("game");
   };
@@ -32,7 +33,10 @@ function App() {
       <div className="playfield">
         <div className="playfield-box">
           {wordle.map((_, col: any) => (
-            <div className="tile" data-col={col}>
+            <div
+              className={correct.includes(col) ? "tile green" : "tile"}
+              data-col={col}
+            >
               {guess[col]}
             </div>
           ))}
@@ -47,6 +51,22 @@ function App() {
     Playfield();
   }, [guess]);
 
+  const checkWin = () => {
+    const splitGuess = guess.split("");
+    console.log("Guess: ", splitGuess);
+    console.log("Wordle: ", wordle);
+    for (let i = 0; i < wordle.length; i++) {
+      console.log(i);
+      if (guess[i] === wordle[i]) {
+        setCorrect((prev: any) => [...prev, i]);
+        console.log(guess[i]);
+        console.log(wordle[i]);
+        console.log(correct);
+        console.log("MATCH");
+      }
+    }
+  };
+
   const KeyBoard = () => {
     const keys1: any = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
     const keys2: any = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
@@ -54,7 +74,7 @@ function App() {
 
     const addKey = (key: any) => {
       if (key === "ENTER" && guess.length === 5) {
-        console.log("hej");
+        checkWin();
         return;
       }
       if (key === "DELETE") {
@@ -71,8 +91,8 @@ function App() {
       <div>
         <div className="keyboard">
           <div className="keyboard-rows">
-            {keys1.map((key: any) => (
-              <div className="key" onClick={() => addKey(key)}>
+            {keys1.map((key: any, index: any) => (
+              <div className="key" datatype={index} onClick={() => addKey(key)}>
                 {key}
               </div>
             ))}
