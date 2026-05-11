@@ -5,7 +5,6 @@ import "./App.css";
 function App() {
   const [state, setState] = useState<string>("start");
   const [wordle, setWordle] = useState<string[]>([]);
-  const [activeRow, setActiveRow] = useState<number[]>([0]);
   const [guess, setGuess] = useState<string>("");
   const [correct, setCorrect] = useState<any>([]);
   const [guesses, setGuesses] = useState<any>({});
@@ -40,7 +39,11 @@ function App() {
                 data-col={col}
                 data-row={row}
               >
-                {guesses[row] ? guesses[row] : ""}
+                {guesses[row]
+                  ? guesses[row][col]
+                  : !guesses[row] && num === row
+                    ? guess[col]
+                    : ""}
               </div>
             )),
           )}
@@ -58,8 +61,9 @@ function App() {
   }, [guess]);
 
   const checkWin = () => {
-    setGuesses((prev: any) => ({ ...prev, [num]: guess }));
+    setGuesses((prev: any) => ({ ...prev, [num]: guess.split("") }));
     setNum((prev) => prev + 1);
+
     setGuess("");
     for (let i = 0; i < wordle.length; i++) {
       console.log(i);
