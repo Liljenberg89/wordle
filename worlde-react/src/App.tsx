@@ -4,11 +4,12 @@ import "./App.css";
 
 function App() {
   const [state, setState] = useState<string>("start");
-  const [trys, setTrys] = useState<string[][]>([[], [], [], [], []]);
   const [wordle, setWordle] = useState<string[]>([]);
-  const [activeRow, setActiveRow] = useState<number>(0);
+  const [activeRow, setActiveRow] = useState<number[]>([0]);
   const [guess, setGuess] = useState<string>("");
   const [correct, setCorrect] = useState<any>([]);
+  const [guesses, setGuesses] = useState<any>({});
+  const [num, setNum] = useState(0);
 
   const getRandomWord = async () => {
     /* const response = await fetch(
@@ -39,38 +40,27 @@ function App() {
                 data-col={col}
                 data-row={row}
               >
-                {trys[activeRow].length > 0
-                  ? trys[activeRow]
-                  : activeRow === row
-                    ? guess[col]
-                    : ""}
+                {guesses[row] ? guesses[row] : ""}
               </div>
             )),
           )}
         </div>
         <KeyBoard />
-        <button onClick={() => console.log(trys)}>sdasd</button>
+        <button onClick={() => console.log(guesses)}>hej</button>
       </div>
     );
   };
 
   useEffect(() => {
     console.log(guess);
-    console.log("trys: ", trys);
+
     Playfield();
   }, [guess]);
 
   const checkWin = () => {
-    setTrys((prev) => {
-      const updated: any = [...prev];
-      updated[activeRow] = guess;
-      return updated;
-    });
-
-    setActiveRow((prev) => prev + 1);
-
-    const splitGuess = guess.split("");
-
+    setGuesses((prev: any) => ({ ...prev, [num]: guess }));
+    setNum((prev) => prev + 1);
+    setGuess("");
     for (let i = 0; i < wordle.length; i++) {
       console.log(i);
       if (guess[i] === wordle[i]) {
