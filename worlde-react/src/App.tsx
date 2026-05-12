@@ -56,7 +56,15 @@ function App() {
           )}
         </div>
         <KeyBoard />
-        <button onClick={() => console.log(semiCorrect)}>hej</button>
+        <button
+          onClick={() => {
+            console.log("corr", correct);
+            console.log(wordle);
+            console.log(guess);
+          }}
+        >
+          hej
+        </button>
       </div>
     );
   };
@@ -75,12 +83,15 @@ function App() {
     for (let i = 0; i < wordle.length; i++) {
       if (guess[i] === wordle[i]) {
         curr.push(i);
-        continue;
-      } else if (wordle.includes(guess[i])) {
         console.log("hej");
+        if (curr.length !== 5) continue;
+      } else if (wordle.includes(guess[i])) {
         semiCurr.push(i);
       }
       if (curr.length !== 0) {
+        if (curr.length === 5) {
+          setState("win");
+        }
         setCorrect((prev: any) => ({ ...prev, [num]: curr }));
       }
       if (semiCurr.length !== 0) {
