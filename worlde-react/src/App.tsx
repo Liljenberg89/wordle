@@ -29,32 +29,38 @@ function App() {
     setState("game");
   };
 
+  const Field = () => {
+    return (
+      <div className="playfield-box">
+        {[0, 1, 2, 3, 4].map((row) =>
+          wordle.map((_, col: any) => (
+            <div
+              className={
+                correct[row]?.includes(col)
+                  ? "tile green"
+                  : semiCorrect[row]?.includes(col)
+                    ? "tile yellow"
+                    : "tile"
+              }
+              data-col={col}
+              data-row={row}
+            >
+              {guesses[row]
+                ? guesses[row][col]
+                : !guesses[row] && num === row
+                  ? guess[col]
+                  : ""}
+            </div>
+          )),
+        )}
+      </div>
+    );
+  };
+
   const Playfield = () => {
     return (
       <div className="playfield">
-        <div className="playfield-box">
-          {[0, 1, 2, 3, 4].map((row) =>
-            wordle.map((_, col: any) => (
-              <div
-                className={
-                  correct[row]?.includes(col)
-                    ? "tile green"
-                    : semiCorrect[row]?.includes(col)
-                      ? "tile yellow"
-                      : "tile"
-                }
-                data-col={col}
-                data-row={row}
-              >
-                {guesses[row]
-                  ? guesses[row][col]
-                  : !guesses[row] && num === row
-                    ? guess[col]
-                    : ""}
-              </div>
-            )),
-          )}
-        </div>
+        <Field />
         <KeyBoard />
         <button
           onClick={() => {
@@ -69,11 +75,19 @@ function App() {
     );
   };
 
+  const WinPage = () => {
+    return (
+      <div>
+        <Field />
+      </div>
+    );
+  };
+
   useEffect(() => {
     Playfield();
   }, [guess]);
 
-  const checkWin = () => {
+  const gameLoop = () => {
     setGuesses((prev: any) => ({ ...prev, [num]: guess.split("") }));
     setNum((prev) => prev + 1);
     setGuess("");
@@ -107,7 +121,7 @@ function App() {
 
     const addKey = (key: any) => {
       if (key === "ENTER" && guess.length === 5) {
-        checkWin();
+        gameLoop();
         return;
       }
       if (key === "DELETE") {
@@ -165,15 +179,9 @@ function App() {
       </>
     );
   };
-  if (state == "start") {
-    return <Home />;
-  } else {
-    return (
-      <div>
-        <Playfield />;
-      </div>
-    );
-  }
+  if (state === "start") return <Home />;
+  if (state === "game") return <Playfield />;
+  if (state === "win") return <WinPage />;
 }
 
 export default App;
