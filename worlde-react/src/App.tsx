@@ -36,7 +36,13 @@ function App() {
           {[0, 1, 2, 3, 4].map((row) =>
             wordle.map((_, col: any) => (
               <div
-                className={correct[row]?.includes(col) ? "tile green" : "tile"}
+                className={
+                  correct[row]?.includes(col)
+                    ? "tile green"
+                    : semiCorrect[row]?.includes(col)
+                      ? "tile yellow"
+                      : "tile"
+                }
                 data-col={col}
                 data-row={row}
               >
@@ -50,7 +56,7 @@ function App() {
           )}
         </div>
         <KeyBoard />
-        <button onClick={() => console.log(correct)}>hej</button>
+        <button onClick={() => console.log(semiCorrect)}>hej</button>
       </div>
     );
   };
@@ -63,15 +69,22 @@ function App() {
     setGuesses((prev: any) => ({ ...prev, [num]: guess.split("") }));
     setNum((prev) => prev + 1);
     setGuess("");
-    let curr = [];
+    let curr: any = [];
+    let semiCurr: any = [];
 
     for (let i = 0; i < wordle.length; i++) {
-      console.log(i);
       if (guess[i] === wordle[i]) {
         curr.push(i);
+        continue;
+      } else if (wordle.includes(guess[i])) {
+        console.log("hej");
+        semiCurr.push(i);
       }
       if (curr.length !== 0) {
         setCorrect((prev: any) => ({ ...prev, [num]: curr }));
+      }
+      if (semiCurr.length !== 0) {
+        setSemiCorrect((prev: any) => ({ ...prev, [num]: semiCurr }));
       }
     }
   };

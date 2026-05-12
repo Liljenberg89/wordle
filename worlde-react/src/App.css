@@ -69,3 +69,9 @@ body {
 .green {
   background-color: green;
 }
+.yellow {
+  background-color: rgb(251, 255, 0);
+}
+.red {
+  border: 3px solid rgb(129, 8, 8);
+}
