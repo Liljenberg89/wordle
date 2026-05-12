@@ -62,23 +62,19 @@ function App() {
       <div className="playfield">
         <Field />
         <KeyBoard />
-        <button
-          onClick={() => {
-            console.log("corr", correct);
-            console.log(wordle);
-            console.log(guess);
-          }}
-        >
-          hej
-        </button>
       </div>
     );
   };
 
   const WinPage = () => {
     return (
-      <div>
+      <div className="playfield">
         <Field />
+
+        <div>
+          <h1>Grattis! Du listade ut ordet!</h1>
+          <button>Restart</button>
+        </div>
       </div>
     );
   };
