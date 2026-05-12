@@ -6,7 +6,8 @@ function App() {
   const [state, setState] = useState<string>("start");
   const [wordle, setWordle] = useState<string[]>([]);
   const [guess, setGuess] = useState<string>("");
-  const [correct, setCorrect] = useState<any>([]);
+  const [correct, setCorrect] = useState<any>({});
+  const [semiCorrect, setSemiCorrect] = useState<any>({});
   const [guesses, setGuesses] = useState<any>({});
   const [num, setNum] = useState(0);
 
@@ -35,7 +36,7 @@ function App() {
           {[0, 1, 2, 3, 4].map((row) =>
             wordle.map((_, col: any) => (
               <div
-                className={correct.includes(col) ? "tile green" : "tile"}
+                className={correct[row]?.includes(col) ? "tile green" : "tile"}
                 data-col={col}
                 data-row={row}
               >
@@ -49,26 +50,28 @@ function App() {
           )}
         </div>
         <KeyBoard />
-        <button onClick={() => console.log(guesses)}>hej</button>
+        <button onClick={() => console.log(correct)}>hej</button>
       </div>
     );
   };
 
   useEffect(() => {
-    console.log(guess);
-
     Playfield();
   }, [guess]);
 
   const checkWin = () => {
     setGuesses((prev: any) => ({ ...prev, [num]: guess.split("") }));
     setNum((prev) => prev + 1);
-
     setGuess("");
+    let curr = [];
+
     for (let i = 0; i < wordle.length; i++) {
       console.log(i);
       if (guess[i] === wordle[i]) {
-        setCorrect((prev: any) => [...prev, i]);
+        curr.push(i);
+      }
+      if (curr.length !== 0) {
+        setCorrect((prev: any) => ({ ...prev, [num]: curr }));
       }
     }
   };
