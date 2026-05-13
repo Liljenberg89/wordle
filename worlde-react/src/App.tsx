@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./App.css";
 
@@ -6,11 +6,11 @@ function App() {
   const [state, setState] = useState<string>("start");
   const [wordle, setWordle] = useState<string[]>([]);
   const [guess, setGuess] = useState<string>("");
-  const [correct, setCorrect] = useState<any>({});
-  const [semiCorrect, setSemiCorrect] = useState<any>({});
-  const [guesses, setGuesses] = useState<any>({});
-  const [num, setNum] = useState(0);
-  const [ok, setOk] = useState(true);
+  const [correct, setCorrect] = useState<Record<any, any>>({});
+  const [semiCorrect, setSemiCorrect] = useState<Record<any, any>>({});
+  const [guesses, setGuesses] = useState<Record<string, any>>({});
+  const [num, setNum] = useState<number>(0);
+  const [ok, setOk] = useState<boolean>(true);
 
   const getRandomWord = async () => {
     const response = await fetch(
@@ -23,7 +23,6 @@ function App() {
     const data = await response.json();
 
     setWordle(data[0].toUpperCase().split(""));
-    console.log(data);
     setState("game");
   };
 
@@ -31,7 +30,7 @@ function App() {
     return (
       <div className="playfield-box">
         {[0, 1, 2, 3, 4].map((row) =>
-          wordle.map((_, col: any) => (
+          wordle.map((_, col: number) => (
             <div
               className={
                 num == row
@@ -67,6 +66,17 @@ function App() {
   };
 
   const GameOver = () => {
+    const restart = () => {
+      setState("start");
+      setWordle([]);
+      setGuess("");
+      setCorrect({});
+      setSemiCorrect({});
+      setGuesses({});
+      setNum(0);
+      setOk(true);
+    };
+
     return (
       <div className="playfield">
         <Field />
@@ -77,7 +87,7 @@ function App() {
           ) : (
             <h1>Tyvärr! Du listade inte ut ordet... {wordle}</h1>
           )}
-          <button>Restart</button>
+          <button onClick={restart}>Restart</button>
         </div>
       </div>
     );
@@ -88,11 +98,14 @@ function App() {
   }, [guess]);
 
   const gameLoop = () => {
-    setGuesses((prev: any) => ({ ...prev, [num]: guess.split("") }));
-    setNum((prev) => prev + 1);
+    setGuesses((prev: Record<any, any>) => ({
+      ...prev,
+      [num]: guess.split(""),
+    }));
+    setNum((prev: number) => prev + 1);
     setGuess("");
-    let curr: any = [];
-    let semiCurr: any = [];
+    let curr: number[] = [];
+    let semiCurr: number[] = [];
 
     for (let i = 0; i < wordle.length; i++) {
       if (guess[i] === wordle[i]) {
@@ -102,28 +115,41 @@ function App() {
         semiCurr.push(i);
       }
       if (curr.length !== 0) {
-        setCorrect((prev: any) => ({ ...prev, [num]: curr }));
+        setCorrect((prev: Record<any, any>) => ({ ...prev, [num]: curr }));
         if (curr.length === 5) {
           setState("gameOver");
           return;
         }
       }
       if (semiCurr.length !== 0) {
-        setSemiCorrect((prev: any) => ({ ...prev, [num]: semiCurr }));
+        setSemiCorrect((prev: Record<any, any>) => ({
+          ...prev,
+          [num]: semiCurr,
+        }));
       }
     }
     if (num === 4) {
-      setOk((prev) => !prev);
+      setOk((prev: boolean) => !prev);
       setState("gameOver");
     }
   };
 
   const KeyBoard = () => {
-    const keys1: any = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
-    const keys2: any = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
-    const keys3 = ["DELETE", "Z", "X", "C", "V", "B", "N", "M", "ENTER"];
+    const keys1: string[] = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
+    const keys2: string[] = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
+    const keys3: string[] = [
+      "DELETE",
+      "Z",
+      "X",
+      "C",
+      "V",
+      "B",
+      "N",
+      "M",
+      "ENTER",
+    ];
 
-    const addKey = (key: any) => {
+    const addKey = (key: string) => {
       if (key === "ENTER" && guess.length === 5) {
         gameLoop();
         return;
@@ -133,7 +159,7 @@ function App() {
         return;
       }
       if (guess.length <= 4 && key !== "ENTER") {
-        setGuess((prev) => prev + key);
+        setGuess((prev: string) => prev + key);
       }
     };
 
@@ -141,21 +167,21 @@ function App() {
       <div>
         <div className="keyboard">
           <div className="keyboard-rows">
-            {keys1.map((key: any, index: any) => (
+            {keys1.map((key: string, index: any) => (
               <div className="key" datatype={index} onClick={() => addKey(key)}>
                 {key}
               </div>
             ))}
           </div>
           <div className="keyboard-rows">
-            {keys2.map((key: any) => (
+            {keys2.map((key: string) => (
               <div className="key" onClick={() => addKey(key)}>
                 {key}
               </div>
             ))}{" "}
           </div>
           <div className="keyboard-rows">
-            {keys3.map((key: any) => (
+            {keys3.map((key: string) => (
               <div className="key" onClick={() => addKey(key)}>
                 {key}
               </div>
