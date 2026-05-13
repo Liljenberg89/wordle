@@ -167,15 +167,19 @@ function App() {
   const Home = () => {
     return (
       <>
-        <div className="container">
-          <h1>Ultimate WORDLE</h1>
-          <p>Kan du knäcka ordet?</p>
-          <p>Klicka start för att spela.</p>
+        <div className="home-container">
+          <div className="info-text">
+            <h1>Välkommen till Filips wordle</h1>
+            <p>
+              Kan du knäcka ordet på fem försök? <br /> Klicka start för att
+              spela.
+            </p>
 
-          <div className="button-box">
-            <button onClick={getRandomWord}>
-              <h2>Start</h2>
-            </button>
+            <div className="button-box">
+              <button className="start-btn" onClick={getRandomWord}>
+                <h2>Start</h2>
+              </button>
+            </div>
           </div>
         </div>
       </>

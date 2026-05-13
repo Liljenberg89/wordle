@@ -6,10 +6,37 @@ body {
   font-family: "Fredoka One", cursive;
   background-color: rgb(255, 255, 255);
 }
-.container {
-  background-image: url("../public/1a3e200a-f755-4d4d-a656-7da127560070.png");
+
+.home-container {
+  background-image: url("../public/wordle.png");
   background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.info-text {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.start-btn {
+  width: 300px;
+  height: 70px;
+  border-radius: 20px;
+  background-color: rgb(255, 255, 255);
+  border: 2px solid rgb(131, 131, 131);
+}
+
+.start-btn:hover {
+  background-color: rgb(216, 216, 216);
+
+  cursor: pointer;
+}
+.container {
   height: 100vh;
   width: 100vw;
   display: flex;
