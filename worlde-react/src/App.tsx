@@ -10,22 +10,20 @@ function App() {
   const [semiCorrect, setSemiCorrect] = useState<any>({});
   const [guesses, setGuesses] = useState<any>({});
   const [num, setNum] = useState(0);
+  const [ok, setOk] = useState(true);
 
   const getRandomWord = async () => {
-    /* const response = await fetch(
-      "https://random-word-api.herokuapp.com/word?number=1&diff=2&length=5",
+    const response = await fetch(
+      "https://random-word-api.herokuapp.com/word?number=1&diff=1&length=5",
     );
 
     if (!response.ok) {
       console.log("error");
     }
     const data = await response.json();
+
+    setWordle(data[0].toUpperCase().split(""));
     console.log(data);
-
-    setWordle(data[0].split(""));
-    */
-    setWordle("HEJSA".split(""));
-
     setState("game");
   };
 
@@ -66,13 +64,17 @@ function App() {
     );
   };
 
-  const WinPage = () => {
+  const GameOver = () => {
     return (
       <div className="playfield">
         <Field />
 
         <div>
-          <h1>Grattis! Du listade ut ordet!</h1>
+          {ok ? (
+            <h1>Grattis! Du listade ut ordet!</h1>
+          ) : (
+            <h1>Tyvärr! Du listade inte ut ordet... {wordle}</h1>
+          )}
           <button>Restart</button>
         </div>
       </div>
@@ -93,20 +95,24 @@ function App() {
     for (let i = 0; i < wordle.length; i++) {
       if (guess[i] === wordle[i]) {
         curr.push(i);
-        console.log("hej");
         if (curr.length !== 5) continue;
       } else if (wordle.includes(guess[i])) {
         semiCurr.push(i);
       }
       if (curr.length !== 0) {
-        if (curr.length === 5) {
-          setState("win");
-        }
         setCorrect((prev: any) => ({ ...prev, [num]: curr }));
+        if (curr.length === 5) {
+          setState("gameOver");
+          return;
+        }
       }
       if (semiCurr.length !== 0) {
         setSemiCorrect((prev: any) => ({ ...prev, [num]: semiCurr }));
       }
+    }
+    if (num === 4) {
+      setOk((prev) => !prev);
+      setState("gameOver");
     }
   };
 
@@ -177,7 +183,7 @@ function App() {
   };
   if (state === "start") return <Home />;
   if (state === "game") return <Playfield />;
-  if (state === "win") return <WinPage />;
+  if (state === "gameOver") return <GameOver />;
 }
 
 export default App;
