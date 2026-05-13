@@ -34,11 +34,13 @@ function App() {
           wordle.map((_, col: any) => (
             <div
               className={
-                correct[row]?.includes(col)
-                  ? "tile green"
-                  : semiCorrect[row]?.includes(col)
-                    ? "tile yellow"
-                    : "tile"
+                num == row
+                  ? "tile active-row"
+                  : correct[row]?.includes(col)
+                    ? "tile green"
+                    : semiCorrect[row]?.includes(col)
+                      ? "tile yellow"
+                      : "tile"
               }
               data-col={col}
               data-row={row}

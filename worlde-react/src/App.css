@@ -67,7 +67,7 @@ body {
   justify-content: center;
   background-color: white;
   border-radius: 2px;
-  border: 3px solid rgb(112, 134, 15);
+  border: 3px solid rgb(136, 160, 30);
   color: white;
   width: 60px;
   height: 60px;
@@ -95,12 +95,16 @@ body {
   border: 1px solid rgb(151, 151, 151);
   border-radius: 8px;
 }
+.key:hover {
+  background-color: rgb(185, 185, 185);
+  cursor: pointer;
+}
 .green {
   background-color: green;
 }
 .yellow {
   background-color: rgb(251, 255, 0);
 }
-.red {
-  border: 3px solid rgb(129, 8, 8);
+.active-row {
+  border: 3px solid rgba(0, 0, 0, 0.87);
 }
