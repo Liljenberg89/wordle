@@ -14,7 +14,7 @@ function App() {
   const [pos, setPos] = useState<number>(35);
 
   const getRandomWord = async () => {
-    /* const response = await fetch(
+    const response = await fetch(
       "https://random-word-api.herokuapp.com/word?number=2&diff=1&length=5",
     );
     if (!response.ok) {
@@ -22,8 +22,6 @@ function App() {
     }
     const data = await response.json();
     setWordle(data[0].toUpperCase().split(""));
-*/
-    setWordle("FLASH".split(""));
 
     setState("game");
   };
