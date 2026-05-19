@@ -11,16 +11,19 @@ function App() {
   const [guesses, setGuesses] = useState<Record<string, any>>({});
   const [num, setNum] = useState<number>(0);
   const [ok, setOk] = useState<boolean>(true);
+  const [pos, setPos] = useState<number>(35);
 
   const getRandomWord = async () => {
-    const response = await fetch(
-      "https://random-word-api.herokuapp.com/word?number=1&diff=1&length=5",
+    /* const response = await fetch(
+      "https://random-word-api.herokuapp.com/word?number=2&diff=1&length=5",
     );
     if (!response.ok) {
       console.log("error");
     }
     const data = await response.json();
     setWordle(data[0].toUpperCase().split(""));
+*/
+    setWordle("FLASH".split(""));
 
     setState("game");
   };
@@ -31,6 +34,7 @@ function App() {
         {[0, 1, 2, 3, 4].map((row) =>
           wordle.map((_, col: number) => (
             <div
+              key={col}
               className={
                 num == row
                   ? "tile active-row"
@@ -58,25 +62,25 @@ function App() {
   const Playfield = () => {
     return (
       <div className="playfield">
+        <span className="active-ball" style={{ top: pos }}></span>
         <Field />
         <KeyBoard />
       </div>
     );
   };
+  const restart = () => {
+    setState("start");
+    setWordle([]);
+    setGuess("");
+    setNum(0);
+    setCorrect({});
+    setSemiCorrect({});
+    setGuesses({});
+    setOk(true);
+    setPos(35);
+  };
 
   const GameOver = () => {
-    setNum(-1);
-    const restart = () => {
-      setState("start");
-      setWordle([]);
-      setGuess("");
-      setNum(0);
-      setCorrect({});
-      setSemiCorrect({});
-      setGuesses({});
-      setOk(true);
-    };
-
     return (
       <div className="playfield">
         <Field />
@@ -102,6 +106,7 @@ function App() {
       ...prev,
       [num]: guess.split(""),
     }));
+    setPos((prev: number) => prev + 70);
     setNum((prev: number) => prev + 1);
     setGuess("");
     let curr: number[] = [];
@@ -110,19 +115,18 @@ function App() {
     for (let i = 0; i < wordle.length; i++) {
       if (guess[i] === wordle[i]) {
         curr.push(i);
-        if (curr.length !== 5) continue;
       } else if (wordle.includes(guess[i])) {
         semiCurr.push(i);
       }
-      if (curr.length !== 0) {
-        setCorrect((prev: Record<any, any>) => ({ ...prev, [num]: curr }));
+      if (curr.length != 0) {
+        setCorrect((prev: any) => ({ ...prev, [num]: curr }));
         if (curr.length === 5) {
           setState("gameOver");
           return;
         }
       }
       if (semiCurr.length !== 0) {
-        setSemiCorrect((prev: Record<any, any>) => ({
+        setSemiCorrect((prev: any) => ({
           ...prev,
           [num]: semiCurr,
         }));
@@ -168,21 +172,26 @@ function App() {
         <div className="keyboard">
           <div className="keyboard-rows">
             {keys1.map((key: string, index: any) => (
-              <div className="key" datatype={index} onClick={() => addKey(key)}>
+              <div
+                key={index}
+                className="key"
+                datatype={index}
+                onClick={() => addKey(key)}
+              >
                 {key}
               </div>
             ))}
           </div>
           <div className="keyboard-rows">
-            {keys2.map((key: string) => (
-              <div className="key" onClick={() => addKey(key)}>
+            {keys2.map((key: string, index: number) => (
+              <div key={index} className="key" onClick={() => addKey(key)}>
                 {key}
               </div>
             ))}{" "}
           </div>
           <div className="keyboard-rows">
-            {keys3.map((key: string) => (
-              <div className="key" onClick={() => addKey(key)}>
+            {keys3.map((key: string, index: number) => (
+              <div key={index} className="key" onClick={() => addKey(key)}>
                 {key}
               </div>
             ))}
