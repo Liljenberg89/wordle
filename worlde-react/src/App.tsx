@@ -12,7 +12,11 @@ function App() {
   const [num, setNum] = useState<number>(0);
   const [ok, setOk] = useState<boolean>(true);
   const [pos, setPos] = useState<number>(35);
-  const [pressed, setPressed] = useState<any>([]);
+  const [pressed, setPressed] = useState<any>({
+    corr: "",
+    semicorr: "",
+    wrong: "",
+  });
 
   const getRandomWord = async () => {
     /*
@@ -63,7 +67,6 @@ function App() {
   const Playfield = () => {
     return (
       <div className="playfield">
-        <span className="active-ball" style={{ top: pos }}></span>
         <Field />
         <KeyBoard />
       </div>
@@ -79,6 +82,7 @@ function App() {
     setGuesses({});
     setOk(true);
     setPos(35);
+    setPressed([]);
   };
 
   const GameOver = () => {
@@ -111,19 +115,27 @@ function App() {
     }));
     setPos((prev: number) => prev + 70);
     setNum((prev: number) => prev + 1);
-    setPressed((prev: any) => [...prev, guess.split("")].join(""));
 
     setGuess("");
     let curr: number[] = [];
     let semiCurr: number[] = [];
 
+    let correctKey: string[] = [...pressed.corr];
+    let semiCorrectKey: string[] = [...pressed.semicorr];
+    let wrongKey: string[] = [...pressed.wrong];
+
     for (let i = 0; i < wordle.length; i++) {
       if (guess[i] === wordle[i]) {
+        correctKey.push(guess[i]);
         curr.push(i);
       } else if (wordle.includes(guess[i])) {
+        semiCorrectKey.push(guess[i]);
         semiCurr.push(i);
+      } else {
+        wrongKey.push(guess[i]);
       }
       if (curr.length != 0) {
+        setPressed((prev: any) => ({ ...prev, corr: correctKey }));
         setCorrect((prev: any) => ({ ...prev, [num]: curr }));
         if (curr.length === 5) {
           setState("gameOver");
@@ -131,12 +143,17 @@ function App() {
         }
       }
       if (semiCurr.length !== 0) {
+        setPressed((prev: any) => ({ ...prev, semicorr: semiCorrectKey }));
         setSemiCorrect((prev: any) => ({
           ...prev,
           [num]: semiCurr,
         }));
       }
+      if (wrongKey.length !== 0) {
+        setPressed((prev: any) => ({ ...prev, wrong: wrongKey }));
+      }
     }
+
     if (num === 4) {
       setOk((prev: boolean) => !prev);
       setState("gameOver");
@@ -179,7 +196,15 @@ function App() {
             {keys1.map((key: string, index: any) => (
               <div
                 key={index}
-                className={pressed.includes(key) ? "grey key" : "key"}
+                className={
+                  pressed.corr?.includes(key)
+                    ? "green key"
+                    : pressed.semicorr?.includes(key)
+                      ? "yellow key"
+                      : pressed.wrong?.includes(key)
+                        ? "grey key"
+                        : "key"
+                }
                 datatype={index}
                 onClick={() => addKey(key)}
               >
@@ -191,7 +216,15 @@ function App() {
             {keys2.map((key: string, index: number) => (
               <div
                 key={index}
-                className={pressed.includes(key) ? "grey key" : "key"}
+                className={
+                  pressed.corr?.includes(key)
+                    ? "green key"
+                    : pressed.semicorr?.includes(key)
+                      ? "yellow key"
+                      : pressed.wrong?.includes(key)
+                        ? "grey key"
+                        : "key"
+                }
                 onClick={() => addKey(key)}
               >
                 {key}
@@ -202,7 +235,15 @@ function App() {
             {keys3.map((key: string, index: number) => (
               <div
                 key={index}
-                className={pressed.includes(key) ? "grey key" : "key"}
+                className={
+                  pressed.corr?.includes(key)
+                    ? "green key"
+                    : pressed.semicorr?.includes(key)
+                      ? "yellow key"
+                      : pressed.wrong?.includes(key)
+                        ? "grey key"
+                        : "key"
+                }
                 onClick={() => addKey(key)}
               >
                 {key}
