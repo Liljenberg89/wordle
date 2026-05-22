@@ -19,7 +19,6 @@ function App() {
   });
 
   const getRandomWord = async () => {
-    /*
     const response = await fetch(
       "https://random-word-api.herokuapp.com/word?number=2&diff=1&length=5",
     );
@@ -28,8 +27,7 @@ function App() {
     }
     const data = await response.json();
     setWordle(data[0].toUpperCase().split(""));
-*/
-    setWordle("FLASH".split(""));
+
     setState("game");
   };
 
@@ -108,8 +106,6 @@ function App() {
 
   useEffect(() => {
     Playfield();
-    console.log(guess);
-    console.log("pressed : ", pressed);
   }, [guess]);
 
   const gameLoop = () => {
