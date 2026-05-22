@@ -105,6 +105,9 @@ body {
 .yellow {
   background-color: rgb(251, 255, 0);
 }
+.grey {
+  background-color: rgb(158, 158, 155);
+}
 .active-row {
 }
 .active-ball {

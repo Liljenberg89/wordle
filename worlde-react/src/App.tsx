@@ -12,8 +12,10 @@ function App() {
   const [num, setNum] = useState<number>(0);
   const [ok, setOk] = useState<boolean>(true);
   const [pos, setPos] = useState<number>(35);
+  const [pressed, setPressed] = useState<any>([]);
 
   const getRandomWord = async () => {
+    /*
     const response = await fetch(
       "https://random-word-api.herokuapp.com/word?number=2&diff=1&length=5",
     );
@@ -22,7 +24,8 @@ function App() {
     }
     const data = await response.json();
     setWordle(data[0].toUpperCase().split(""));
-
+*/
+    setWordle("FLASH".split(""));
     setState("game");
   };
 
@@ -97,6 +100,8 @@ function App() {
 
   useEffect(() => {
     Playfield();
+    console.log(guess);
+    console.log("pressed : ", pressed);
   }, [guess]);
 
   const gameLoop = () => {
@@ -106,6 +111,8 @@ function App() {
     }));
     setPos((prev: number) => prev + 70);
     setNum((prev: number) => prev + 1);
+    setPressed((prev: any) => [...prev, guess.split("")].join(""));
+
     setGuess("");
     let curr: number[] = [];
     let semiCurr: number[] = [];
@@ -172,7 +179,7 @@ function App() {
             {keys1.map((key: string, index: any) => (
               <div
                 key={index}
-                className="key"
+                className={pressed.includes(key) ? "grey key" : "key"}
                 datatype={index}
                 onClick={() => addKey(key)}
               >
@@ -182,14 +189,22 @@ function App() {
           </div>
           <div className="keyboard-rows">
             {keys2.map((key: string, index: number) => (
-              <div key={index} className="key" onClick={() => addKey(key)}>
+              <div
+                key={index}
+                className={pressed.includes(key) ? "grey key" : "key"}
+                onClick={() => addKey(key)}
+              >
                 {key}
               </div>
             ))}{" "}
           </div>
           <div className="keyboard-rows">
             {keys3.map((key: string, index: number) => (
-              <div key={index} className="key" onClick={() => addKey(key)}>
+              <div
+                key={index}
+                className={pressed.includes(key) ? "grey key" : "key"}
+                onClick={() => addKey(key)}
+              >
                 {key}
               </div>
             ))}
