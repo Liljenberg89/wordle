@@ -11,7 +11,7 @@ function App() {
   const [guesses, setGuesses] = useState<Record<string, any>>({});
   const [num, setNum] = useState<number>(0);
   const [ok, setOk] = useState<boolean>(true);
-  const [pos, setPos] = useState<number>(35);
+  const [pos, setPos] = useState<number>(30);
   const [pressed, setPressed] = useState<any>({
     corr: "",
     semicorr: "",
@@ -67,6 +67,10 @@ function App() {
   const Playfield = () => {
     return (
       <div className="playfield">
+        <div className="active-triangle-box" style={{ top: pos }}>
+          <div className="triangle"></div>
+          <div className="triangle-block"></div>
+        </div>
         <Field />
         <KeyBoard />
       </div>
@@ -81,7 +85,7 @@ function App() {
     setSemiCorrect({});
     setGuesses({});
     setOk(true);
-    setPos(35);
+    setPos(30);
     setPressed([]);
   };
 
